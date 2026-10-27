@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JouleAI — your productivity partner</title>
-  <meta name="description" content="JouleAI, your productivity partner. Coming soon — join the waitlist.">
+  <title>joule AI — your productivity partner</title>
+  <meta name="description" content="joule AI, your productivity partner. coming soon — join the waitlist.">
   <meta name="theme-color" content="#0b0b0c">
-  <meta property="og:title" content="JouleAI">
-  <meta property="og:description" content="Your productivity partner. Coming soon.">
+  <meta property="og:title" content="joule AI">
+  <meta property="og:description" content="your productivity partner. coming soon.">
   <meta property="og:url" content="https://jouleai.vercel.app">
   <meta property="og:type" content="website">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0b0b0c;
@@ -58,18 +58,22 @@
       margin-top: 48px;
     }
     h1 {
-      font-family: "Instrument Serif", Georgia, serif;
-      font-weight: 400;
-      font-size: clamp(64px, 14vw, 128px);
-      line-height: .95;
-      letter-spacing: -.02em;
+      display: flex;
+      align-items: center;
+      gap: .5em;
+      font-family: "Inter", system-ui, sans-serif;
+      font-weight: 600;
+      font-size: clamp(52px, 13vw, 96px);
+      line-height: 1;
+      letter-spacing: -.03em;
     }
+    h1 svg { height: .46em; width: auto; flex: none; transform: translateY(.06em); }
     .tagline {
       font-family: "Instrument Serif", Georgia, serif;
       font-style: italic;
       font-size: clamp(22px, 4.5vw, 30px);
       color: var(--muted);
-      margin-top: 10px;
+      margin-top: 18px;
     }
     form {
       margin-top: 20px;
@@ -125,7 +129,10 @@
 </head>
 <body>
   <main>
-    <h1>JouleAI</h1>
+    <h1 aria-label="joule AI">
+      <svg viewBox="0 0 99 42" aria-hidden="true"><rect x="0" y="12" width="19" height="18" rx="4" fill="#545454"/><rect x="29" y="8" width="30" height="26" rx="6" fill="#9d9d9d"/><rect x="57" y="0" width="42" height="42" rx="10" fill="currentColor"/></svg>
+      <span>joule AI</span>
+    </h1>
     <p class="tagline">your productivity partner</p>
     <p class="badge">coming soon</p>
 
