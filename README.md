@@ -22,3 +22,9 @@ email once after deploying to trigger it.
 
 After that, every signup arrives as an email titled "New JouleAI waitlist signup".
 Tip: create a Gmail filter/label for that subject to keep the list in one place.
+
+## Survey
+
+After someone joins the waitlist, an optional short survey appears (browser, daily apps,
+current habits, problems, apps they've tried, what failed, ideas). Answers arrive as a
+separate email titled "New JouleAI survey response", tagged with the person's email.
