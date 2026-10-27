@@ -273,35 +273,21 @@
   <script>
     const ENDPOINT = "https://formsubmit.co/ajax/tryjoule.ai@gmail.com";
 
-    // type: "one" = pick one (auto-advances), "many" = pick any, "text" = free writing.
+    // type: "one" = pick one (auto-advances), "many" = pick any (or up to max), "text" = free writing.
     // other: true lets people write their own answer.
     const QUESTIONS = [
       { id: "role", type: "one", title: "what best describes you?",
-        options: ["student", "founder", "software engineer", "designer", "product / manager", "freelancer", "creator", "other"], other: true },
-      { id: "device", type: "one", title: "where do you get most work done?",
-        options: ["mac", "windows", "linux", "phone / tablet"] },
-      { id: "browser", type: "one", title: "which browser do you live in?",
-        options: ["chrome", "safari", "arc", "firefox", "edge", "brave", "other"], other: true },
-      { id: "daily_apps", type: "many", title: "which apps do you open every day?", hint: "pick all that apply",
-        options: ["gmail / outlook", "google calendar", "notion", "slack", "whatsapp", "google docs / sheets", "teams / zoom", "chatgpt / claude", "figma", "linear / jira", "github", "other"], other: true },
-      { id: "tracking", type: "many", title: "how do you keep track of what to do?", hint: "pick all that apply",
-        options: ["a to-do app", "notes app", "calendar blocking", "pen and paper", "texting / emailing myself", "just in my head", "other"], other: true },
+        options: ["student", "founder", "engineer / designer", "manager", "freelancer / creator", "other"], other: true },
+      { id: "browser", type: "one", title: "which browser do you use most?",
+        options: ["chrome", "safari", "arc", "brave", "edge / firefox", "other"], other: true },
       { id: "blockers", type: "many", title: "what gets in the way the most?", hint: "pick up to 3", max: 3,
-        options: ["social media & distractions", "too many tabs & apps", "unclear priorities", "procrastination", "switching between tasks", "meetings & messages", "forgetting things", "low energy / burnout", "other"], other: true },
-      { id: "productive_when", type: "one", title: "when are you most productive?",
-        options: ["early morning", "late morning", "afternoon", "evening", "late night", "it changes every day"] },
-      { id: "tried_apps", type: "many", title: "which productivity apps have you tried?", hint: "pick all that apply",
-        options: ["todoist", "notion", "ticktick", "things", "google tasks / keep", "apple reminders / notes", "motion", "sunsama / akiflow", "obsidian", "none", "other"], other: true },
-      { id: "why_stopped", type: "many", title: "why did they stop working for you?", hint: "pick all that apply",
-        options: ["too much setup", "i forgot to use it", "too complicated", "didn't fit how i work", "didn't connect to my other apps", "too expensive", "didn't actually help me focus", "i still use one happily", "other"], other: true },
-      { id: "features", type: "many", title: "what should joule do for you?", hint: "pick up to 4 — what matters most", max: 4,
-        options: ["plan my day automatically", "prioritise my tasks", "block distractions", "summarise emails & messages", "remind me at the right time", "focus timer / deep work mode", "track where my time goes", "turn notes & chats into tasks", "weekly review & insights", "an AI that acts across my apps", "other"], other: true },
-      { id: "form_factor", type: "one", title: "how would you want to use joule?",
-        options: ["browser extension", "desktop app", "phone app", "web app", "all of the above"] },
+        options: ["distractions & social media", "too many tabs & apps", "procrastination", "unclear priorities", "meetings & messages", "forgetting things", "other"], other: true },
+      { id: "past_apps", type: "many", title: "why haven't productivity apps stuck for you?", hint: "pick all that apply",
+        options: ["too much setup", "i forget to use them", "too complicated", "don't connect to my other apps", "never really tried one", "one works fine for me", "other"], other: true },
+      { id: "features", type: "many", title: "what should joule do for you?", hint: "pick up to 3", max: 3,
+        options: ["plan my day for me", "block distractions", "prioritise my tasks", "summarise emails & messages", "remind me at the right time", "an AI that acts across my apps", "other"], other: true },
       { id: "price", type: "one", title: "if joule nailed it, what would you pay?",
-        options: ["free only", "under $5 / month", "$5–10 / month", "$10–20 / month", "$20+ / month"] },
-      { id: "anything_else", type: "text", title: "anything else we should know?", hint: "a feature you've always wanted, a pet peeve, anything",
-        placeholder: "type here…" },
+        options: ["free only", "under $5 / month", "$5–10 / month", "$10+ / month"] },
     ];
 
     const $ = (id) => document.getElementById(id);
@@ -336,7 +322,7 @@
         email = value;
         form.style.display = "none";
         status.className = "status ok";
-        status.textContent = "you're on the list. got a minute to help shape joule?";
+        status.textContent = "you're on the list. 6 quick taps to help shape joule?";
         startSurvey();
       } catch (err) {
         status.textContent = "something went wrong. please try again.";

@@ -26,7 +26,7 @@ Tip: create a Gmail filter/label for that subject to keep the list in one place.
 ## Survey
 
 After someone joins the waitlist, an optional one-question-at-a-time survey appears
-(13 questions, mostly multiple choice, each with skip and an optional write-in "other").
+(6 multiple-choice questions, each with skip and an optional write-in "other").
 Single-choice questions advance on tap; letter keys pick options and Enter moves on.
 Answers arrive as one email titled "New JouleAI survey response", tagged with the
 person's email.
