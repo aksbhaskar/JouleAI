@@ -12,24 +12,23 @@ Every push to the production branch redeploys automatically.
 
 ## How the waitlist works
 
-The form posts signups to [FormSubmit](https://formsubmit.co), a free service that
-emails each submission to **tryjoule.ai@gmail.com**. No server or database needed.
+Signups and survey answers are sent to a Google Apps Script web app that appends
+them to a Google Sheet ("waitlist" and "survey" tabs). Setup, once:
 
-**One-time activation:** the first time someone submits the form, FormSubmit sends an
-activation email to tryjoule.ai@gmail.com. Click the link in it — until then, signups
-are not delivered (that first submission shows an error on the page). Submit your own
-email once after deploying to trigger it.
+1. Create a Google Sheet (e.g. "joule AI waitlist") → **Extensions → Apps Script**.
+2. Replace the code with `google-apps-script.js` from this repo and save.
+3. **Deploy → New deployment** → type **Web app**; Execute as **Me**; Who has access
+   **Anyone** → Deploy, authorise, and copy the web app URL (ends in `/exec`).
+4. Put that URL in `ENDPOINT` in `index.html`.
 
-After that, every signup arrives as an email titled "New JouleAI waitlist signup".
-Tip: create a Gmail filter/label for that subject to keep the list in one place.
+Each signup also emails `NOTIFY_EMAIL` (set in the script).
 
 ## Survey
 
 After someone joins the waitlist, an optional one-question-at-a-time survey appears
 (6 multiple-choice questions, each with skip and an optional write-in "other").
 Single-choice questions advance on tap; letter keys pick options and Enter moves on.
-Answers arrive as one email titled "New JouleAI survey response", tagged with the
-person's email.
+Answers land as one row in the "survey" tab, tagged with the person's email.
 
 To add, remove or reword questions, edit the `QUESTIONS` list near the bottom of
 `index.html`.

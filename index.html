@@ -278,7 +278,8 @@
   </footer>
 
   <script>
-    const ENDPOINT = "https://formsubmit.co/ajax/tryjoule.ai@gmail.com";
+    // Google Apps Script web app that appends rows to the waitlist sheet (see google-apps-script.js)
+    const ENDPOINT = "PASTE_WEB_APP_URL_HERE";
 
     // type: "one" = pick one (auto-advances), "many" = pick any (or up to max), "text" = free writing.
     // other: true lets people write their own answer.
@@ -304,13 +305,10 @@
     let email = "", step = 0, sending = false, moving = false, firstRender = true;
 
     async function send(payload) {
-      const res = await fetch(ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify({ _template: "table", ...payload }),
-      });
+      // text/plain keeps this a simple request, so Apps Script needs no CORS preflight
+      const res = await fetch(ENDPOINT, { method: "POST", body: JSON.stringify(payload) });
       const data = await res.json();
-      if (!res.ok || String(data.success) !== "true") throw new Error(data.message);
+      if (!data.ok) throw new Error(data.error);
     }
 
     // ---------- waitlist ----------
@@ -325,7 +323,7 @@
       button.disabled = true;
       status.textContent = "joining…";
       try {
-        await send({ email: value, _subject: "New JouleAI waitlist signup", _replyto: value });
+        await send({ type: "waitlist", email: value });
         email = value;
         form.style.display = "none";
         status.className = "status ok";
@@ -455,7 +453,7 @@
       sending = true;
       $("bar").style.width = "100%";
       $("count").textContent = "";
-      const payload = { email, _subject: "New JouleAI survey response", _replyto: email };
+      const payload = { type: "survey", email };
       for (const q of QUESTIONS) {
         const s = answers[q.id];
         if (!s) continue;
