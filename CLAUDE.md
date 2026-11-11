@@ -5,6 +5,8 @@
 - Make one commit per logical change, however small: a copy tweak, a colour change
   and a new survey question are three commits, not one.
 - Never make empty, no-op or padding commits just to raise the commit count.
+- Author every commit as Akshat Bhaskar <bhaskarakshat22@gmail.com>. Commit messages
+  carry no co-author lines, session links or tool names.
 - Push after each commit (or each small batch of commits) so Vercel redeploys.
 
 ## Site
