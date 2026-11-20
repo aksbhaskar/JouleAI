@@ -415,7 +415,6 @@
       } else if (s.picks.includes(value)) {
         s.picks = s.picks.filter((p) => p !== value);
       } else {
-        s.picks = value === "none" ? [] : s.picks.filter((p) => p !== "none");
         if (q.max && s.picks.length >= q.max) s.picks.shift();
         s.picks.push(value);
       }
