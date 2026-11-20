@@ -111,7 +111,7 @@
       font-size: 16px;
       padding: 14px 4px;
     }
-    input::placeholder, textarea::placeholder { color: var(--muted); }
+    input::placeholder { color: var(--muted); }
     button {
       background: transparent;
       border: 0;
@@ -209,12 +209,10 @@
       font: inherit;
       font-size: 15px;
       padding: 10px 2px;
-      resize: none;
       transition: border-color .3s;
     }
     .other.show { display: block; animation: rise .4s var(--ease) both; }
     .other:focus { border-color: var(--fg); }
-    textarea.other { min-height: 96px; margin-top: 20px; }
 
     .nav { display: flex; align-items: center; justify-content: space-between; margin-top: 32px; }
     .nav .left { display: flex; gap: 20px; }
@@ -281,7 +279,7 @@
     // Google Apps Script web app that appends rows to the waitlist sheet (see google-apps-script.js)
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbyOqeX_wQW6EzZ4f47lTuub34VT0I5sINtP6ij7EMhpo1oczrk7GmVPXOaG2ZTAWcEsOg/exec";
 
-    // type: "one" = pick one (auto-advances), "many" = pick any (or up to max), "text" = free writing.
+    // type: "one" = pick one (auto-advances), "many" = pick any (or up to max).
     // other: true lets people write their own answer.
     const QUESTIONS = [
       { id: "role", type: "one", title: "what best describes you?",
@@ -355,15 +353,11 @@
 
       let body = `<h2 class="qtitle">${q.title}</h2>`;
       if (q.hint) body += `<p class="qhint">${q.hint}</p>`;
-      if (q.type === "text") {
-        body += `<textarea class="other show" id="otherInput" placeholder="${q.placeholder || ""}"></textarea>`;
-      } else {
-        const cols = q.options.length <= 6 ? " single-col" : "";
-        body += `<div class="options${cols}">` + q.options.map((o, i) =>
-          `<button type="button" class="opt" data-value="${o}" aria-pressed="${s.picks.includes(o)}"><kbd>${KEYS[i]}</kbd><span>${o}</span></button>`
-        ).join("") + `</div>`;
-        if (q.other) body += `<input class="other${s.picks.includes("other") ? " show" : ""}" id="otherInput" type="text" placeholder="write your own…">`;
-      }
+      const cols = q.options.length <= 6 ? " single-col" : "";
+      body += `<div class="options${cols}">` + q.options.map((o, i) =>
+        `<button type="button" class="opt" data-value="${o}" aria-pressed="${s.picks.includes(o)}"><kbd>${KEYS[i]}</kbd><span>${o}</span></button>`
+      ).join("") + `</div>`;
+      if (q.other) body += `<input class="other${s.picks.includes("other") ? " show" : ""}" id="otherInput" type="text" placeholder="write your own…">`;
       body += `<div class="nav">
         <div class="left">
           <button type="button" id="back"${step === 0 ? " hidden" : ""}>← back</button>
@@ -382,7 +376,6 @@
           other.addEventListener("keydown", (e) => {
             if (e.key === "Enter" && !e.shiftKey && !$("next").disabled) { e.preventDefault(); advance(); }
           });
-          if (q.type === "text") setTimeout(() => other.focus(), 50);
         }
         stage.querySelectorAll(".opt").forEach((b) => b.addEventListener("click", () => pick(b.dataset.value)));
         $("back").addEventListener("click", back);
@@ -409,7 +402,7 @@
       const q = current(), s = state(q), btn = $("next");
       if (!btn) return;
       const wroteOther = s.other.trim() !== "";
-      let ok = q.type === "text" || s.picks.length > 0;
+      let ok = s.picks.length > 0;
       if (q.type === "one" && s.picks[0] === "other") ok = wroteOther;
       btn.disabled = !ok;
     }
@@ -459,7 +452,7 @@
         if (!s) continue;
         const parts = s.picks.filter((p) => p !== "other");
         const written = s.other.trim();
-        if (written && (q.type === "text" || s.picks.includes("other"))) parts.push(q.type === "text" ? written : `other: ${written}`);
+        if (written && s.picks.includes("other")) parts.push(`other: ${written}`);
         if (parts.length) payload[q.id] = parts.join(", ");
       }
       transition(() => { stage.innerHTML = `<div class="done"><h2 class="qtitle">sending…</h2></div>`; });
@@ -481,7 +474,7 @@
     // keyboard: letters pick options, enter moves on, ← goes back
     document.addEventListener("keydown", (e) => {
       if (!survey.classList.contains("open") || sending) return;
-      if (e.target.matches("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.target.matches("input") || e.metaKey || e.ctrlKey || e.altKey) return;
       const q = current();
       if (e.key === "Enter") {
         e.preventDefault();
@@ -490,7 +483,7 @@
       }
       if (e.key === "ArrowLeft") { back(); return; }
       const i = KEYS.indexOf(e.key.toLowerCase());
-      if (q.options && i >= 0 && i < q.options.length) pick(q.options[i]);
+      if (i >= 0 && i < q.options.length) pick(q.options[i]);
     });
   </script>
 </body>
