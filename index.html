@@ -254,10 +254,15 @@
       from { opacity: 0; transform: scale(.96); }
       to { opacity: 1; transform: none; }
     }
-    .launch {
+    .launch-shield {
       position: fixed;
       inset: 0;
       z-index: 2147483647;
+      touch-action: none;
+    }
+    .launch {
+      position: absolute;
+      inset: 0;
       background: #000;
       display: grid;
       place-items: center;
@@ -306,12 +311,16 @@
 <body>
   <script>
     (() => {
+      const shield = document.createElement('div');
+      shield.className = 'launch-shield';
+      shield.setAttribute('aria-hidden', 'true');
       const overlay = document.createElement('div');
       overlay.className = 'launch';
       overlay.setAttribute('aria-hidden', 'true');
       overlay.innerHTML = '<div class="launch-brand"><div class="launch-wordmark">joule AI</div><svg class="launch-mark" viewBox="0 0 99 42"><rect x="0" y="12" width="19" height="18" rx="4" fill="#545454"/><rect x="29" y="8" width="30" height="26" rx="6" fill="#9d9d9d"/><rect x="57" y="0" width="42" height="42" rx="10" fill="#fff"/></svg></div>';
       document.body.classList.add('launching');
-      document.body.append(overlay);
+      shield.append(overlay);
+      document.body.append(shield);
       let timer;
       const finish = (event) => {
         if (event) {
@@ -321,7 +330,7 @@
         clearTimeout(timer);
         document.body.classList.add('launch-skipped');
         document.body.classList.remove('launching');
-        overlay.remove();
+        shield.remove();
         document.removeEventListener('click', finish, true);
         document.removeEventListener('keydown', finish, true);
       };
