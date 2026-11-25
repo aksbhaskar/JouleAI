@@ -26,7 +26,11 @@ function doPost(e) {
 
     // prefix ' so nobody can inject a spreadsheet formula
     const clean = (v) => { v = String(v ?? "").slice(0, 2000); return /^[=+\-@]/.test(v) ? "'" + v : v; };
-    sheet.appendRow(headers.map((h) => (h === "timestamp" ? new Date() : clean(data[h]))));
+    sheet.appendRow(headers.map((h) => {
+      if (h === "timestamp") return new Date();
+      const value = clean(data[h]);
+      return (h === "ref" || h === "code") && value && !value.startsWith("'") ? "'" + value : value;
+    }));
 
     if (NOTIFY_EMAIL && type === "waitlist") {
       MailApp.sendEmail(NOTIFY_EMAIL, "New joule AI waitlist signup", data.email + " just joined the waitlist.\nref: " + clean(data.ref));
