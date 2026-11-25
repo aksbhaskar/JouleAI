@@ -450,10 +450,19 @@
       }
     } catch {}
 
-    async function inviteCode(address) {
-      const bytes = new TextEncoder().encode(address.trim().toLowerCase());
-      const digest = await crypto.subtle.digest("SHA-256", bytes);
-      return Array.from(new Uint8Array(digest).slice(0, 6), (b) => b.toString(16).padStart(2, "0")).join("");
+    const inviteCodes = new Map();
+    function inviteCode(address) {
+      const key = `joule-invite:${address.trim().toLowerCase()}`;
+      if (inviteCodes.has(key)) return inviteCodes.get(key);
+      let code;
+      try { code = localStorage.getItem(key); } catch {}
+      if (!/^j[a-z0-9]{10}$/.test(code || "")) {
+        const bytes = crypto.getRandomValues(new Uint8Array(10));
+        code = "j" + Array.from(bytes, (b) => (b % 36).toString(36)).join("");
+        try { localStorage.setItem(key, code); } catch {}
+      }
+      inviteCodes.set(key, code);
+      return code;
     }
 
     function showInvite(code) {
@@ -504,7 +513,7 @@
       button.disabled = true;
       status.textContent = "joining…";
       try {
-        const code = await inviteCode(value);
+        const code = inviteCode(value);
         await send({ type: "waitlist", email: value, ref, code });
         email = value;
         form.style.display = "none";
