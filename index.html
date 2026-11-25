@@ -515,6 +515,8 @@
       try {
         const code = inviteCode(value);
         await send({ type: "waitlist", email: value, ref, code });
+        ref = "";
+        try { localStorage.removeItem("joule-ref"); } catch {}
         email = value;
         form.style.display = "none";
         status.className = "status ok";
