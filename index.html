@@ -133,6 +133,35 @@
     }
     .status.ok { color: var(--fg); }
 
+    #invite {
+      width: 100%;
+      max-width: 560px;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    #invite p { color: var(--muted); }
+    #invite h2 { font-size: 14px; font-weight: 400; }
+    #invite-link {
+      display: block;
+      width: 100%;
+      margin-top: 12px;
+      padding: 8px 0;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      background: transparent;
+      color: var(--fg);
+      font: inherit;
+      font-size: 12px;
+    }
+    .invite-actions { display: flex; align-items: center; gap: 20px; margin-top: 8px; }
+    .invite-actions button { padding: 6px 0; font-size: 13px; color: var(--fg); }
+    #invite-feedback { min-height: 21px; }
+
     /* ---------- survey ---------- */
     #survey {
       display: none;
@@ -366,6 +395,17 @@
       <div class="progress"><div class="bar"><i id="bar"></i></div><span class="count" id="count"></span></div>
       <div class="stage" id="stage"></div>
     </section>
+
+    <section id="invite" aria-labelledby="invite-title" hidden>
+      <h2 id="invite-title">know someone who'd love joule AI?</h2>
+      <p>invite them — when they join the waitlist, you get 2 months free.</p>
+      <input id="invite-link" aria-label="your personal invite link" readonly>
+      <div class="invite-actions">
+        <button type="button" id="copy-invite">copy link</button>
+        <button type="button" id="share-invite" hidden>share</button>
+      </div>
+      <p id="invite-feedback" role="status" aria-live="polite"></p>
+    </section>
   </main>
 
   <footer>
@@ -416,6 +456,35 @@
       return Array.from(new Uint8Array(digest).slice(0, 6), (b) => b.toString(16).padStart(2, "0")).join("");
     }
 
+    function showInvite(code) {
+      $("invite-link").value = `https://jouleai.vercel.app/?ref=${code}`;
+      $("share-invite").hidden = !navigator.share;
+      $("invite").hidden = false;
+    }
+
+    $("copy-invite").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText($("invite-link").value);
+        $("invite-feedback").textContent = "copied";
+      } catch {
+        $("invite-link").focus();
+        $("invite-link").select();
+        $("invite-feedback").textContent = "couldn't copy. select and copy the link above.";
+      }
+    });
+
+    $("share-invite").addEventListener("click", async () => {
+      try {
+        await navigator.share({
+          title: "joule AI",
+          text: "know someone who'd love joule AI? join the waitlist.",
+          url: $("invite-link").value,
+        });
+      } catch (err) {
+        if (err.name !== "AbortError") $("invite-feedback").textContent = "couldn't share. try copying the link instead.";
+      }
+    });
+
     async function send(payload) {
       // text/plain keeps this a simple request, so Apps Script needs no CORS preflight
       const res = await fetch(ENDPOINT, { method: "POST", body: JSON.stringify(payload) });
@@ -442,6 +511,7 @@
         status.className = "status ok";
         status.textContent = "you're on the list. 6 quick taps to help shape joule?";
         startSurvey();
+        showInvite(code);
       } catch (err) {
         status.textContent = "something went wrong. please try again.";
         console.error(err);
@@ -588,6 +658,7 @@
     // keyboard: letters pick options, enter moves on, ← goes back
     document.addEventListener("keydown", (e) => {
       if (!survey.classList.contains("open") || sending) return;
+      if (e.target.closest("#invite")) return;
       if (e.target.matches("input") || e.metaKey || e.ctrlKey || e.altKey) return;
       const q = current();
       if (e.key === "Enter") {
