@@ -399,6 +399,23 @@
     const answers = {}; // id -> { picks: [], other: "" }
     let email = "", step = 0, sending = false, moving = false, firstRender = true;
 
+    const validRef = (value) => /^[a-zA-Z0-9_-]{1,64}$/.test(value || "");
+    let ref = new URLSearchParams(location.search).get("ref") || "";
+    if (!validRef(ref)) ref = "";
+    try {
+      if (ref) localStorage.setItem("joule-ref", ref);
+      else {
+        const stored = localStorage.getItem("joule-ref");
+        if (validRef(stored)) ref = stored;
+      }
+    } catch {}
+
+    async function inviteCode(address) {
+      const bytes = new TextEncoder().encode(address.trim().toLowerCase());
+      const digest = await crypto.subtle.digest("SHA-256", bytes);
+      return Array.from(new Uint8Array(digest).slice(0, 6), (b) => b.toString(16).padStart(2, "0")).join("");
+    }
+
     async function send(payload) {
       // text/plain keeps this a simple request, so Apps Script needs no CORS preflight
       const res = await fetch(ENDPOINT, { method: "POST", body: JSON.stringify(payload) });
@@ -418,7 +435,8 @@
       button.disabled = true;
       status.textContent = "joining…";
       try {
-        await send({ type: "waitlist", email: value });
+        const code = await inviteCode(value);
+        await send({ type: "waitlist", email: value, ref, code });
         email = value;
         form.style.display = "none";
         status.className = "status ok";
