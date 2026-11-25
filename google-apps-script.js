@@ -11,6 +11,10 @@ function doPost(e) {
     const type = data.type === "survey" ? "survey" : "waitlist";
     delete data.type;
     if (!data.email) throw new Error("missing email");
+    if (type === "waitlist") {
+      data.ref = data.ref ?? "";
+      data.code = data.code ?? "";
+    }
 
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     const sheet = ss.getSheetByName(type) || ss.insertSheet(type);
@@ -25,7 +29,7 @@ function doPost(e) {
     sheet.appendRow(headers.map((h) => (h === "timestamp" ? new Date() : clean(data[h]))));
 
     if (NOTIFY_EMAIL && type === "waitlist") {
-      MailApp.sendEmail(NOTIFY_EMAIL, "New joule AI waitlist signup", data.email + " just joined the waitlist.");
+      MailApp.sendEmail(NOTIFY_EMAIL, "New joule AI waitlist signup", data.email + " just joined the waitlist.\nref: " + clean(data.ref));
     }
     return json({ ok: true });
   } catch (err) {
