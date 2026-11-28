@@ -58,6 +58,7 @@
       min-height: 100vh;
       padding: 0 20px;
     }
+    .fold { flex: none; display: flex; flex-direction: column; min-height: 100vh; }
     main {
       flex: 1;
       display: flex;
@@ -291,6 +292,21 @@
     footer a { color: inherit; text-decoration: none; }
     footer a:hover { color: var(--fg); }
 
+    #faq {
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 24px 0 56px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    #faq h2 { font-size: 14px; font-weight: 400; }
+    #faq h3 { font-size: 13px; font-weight: 400; margin-top: 18px; }
+    #faq p { color: var(--muted); }
+    #faq a { color: inherit; text-decoration: none; }
+    #faq a:hover { color: var(--fg); }
+
     body.launching main, body.launching footer {
       animation: launch-reveal .45s var(--ease) 1.55s both;
     }
@@ -390,6 +406,7 @@
       timer = setTimeout(finish, matchMedia('(prefers-reduced-motion: reduce)').matches ? 800 : 2000);
     })();
   </script>
+  <div class="fold">
   <main>
     <h1 aria-label="joule AI">
       <svg viewBox="0 0 99 42" aria-hidden="true"><rect x="0" y="12" width="19" height="18" rx="4" fill="#545454"/><rect x="29" y="8" width="30" height="26" rx="6" fill="#9d9d9d"/><rect x="57" y="0" width="42" height="42" rx="10" fill="currentColor"/></svg>
@@ -426,6 +443,23 @@
   <footer>
     <a href="mailto:tryjoule.ai@gmail.com">tryjoule.ai@gmail.com</a>
   </footer>
+  </div>
+
+  <section id="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">questions</h2>
+    <h3>what is joule AI?</h3>
+    <p>joule AI is coming soon. its tagline is "less managing, more doing".</p>
+    <h3>is joule AI available yet?</h3>
+    <p>not yet. joule AI is coming soon, and the waitlist is open.</p>
+    <h3>how do i join the waitlist?</h3>
+    <p>enter your email at the top of this page and press "join waitlist".</p>
+    <h3>what happens after i join?</h3>
+    <p>you're on the list, and you can answer 6 optional multiple-choice questions that help shape joule AI.</p>
+    <h3>what do i get for inviting someone?</h3>
+    <p>after you join, you get a personal invite link. when someone joins the waitlist through it, you get 2 months free.</p>
+    <h3>how do i contact joule AI?</h3>
+    <p>email <a href="mailto:tryjoule.ai@gmail.com">tryjoule.ai@gmail.com</a>.</p>
+  </section>
 
   <script>
     // Google Apps Script web app that appends rows to the waitlist sheet (see google-apps-script.js)
