@@ -1,0 +1,19 @@
+# joule AI
+
+> joule AI is coming soon. its tagline is "less managing, more doing". this site is a one-page waitlist.
+
+## pages
+
+- [home](https://jouleai.vercel.app/): the waitlist form, an optional 6-question survey after signup, an invite link, and a short faq.
+
+## key facts
+
+- name: joule AI
+- status: coming soon; the waitlist is open
+- how to join: enter your email on the home page and press "join waitlist"
+- invites: after you join, you get a personal invite link; when someone joins the waitlist through it, you get 2 months free
+- contact: tryjoule.ai@gmail.com
+
+## more
+
+- [full text](https://jouleai.vercel.app/llms-full.txt): everything the site says, in plain text

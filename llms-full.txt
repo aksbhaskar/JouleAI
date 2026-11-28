@@ -1,0 +1,55 @@
+# joule AI
+
+> joule AI is coming soon. its tagline is "less managing, more doing". this site is a one-page waitlist.
+
+site: https://jouleai.vercel.app/
+contact: tryjoule.ai@gmail.com
+
+## home page
+
+joule AI
+less managing, more doing
+coming soon
+
+the page has one form: enter your email and press "join waitlist".
+
+## after you join
+
+you're on the list, and the page offers 6 optional multiple-choice questions that help shape joule AI. every question can be skipped. the questions are:
+
+1. what best describes you?
+2. which browser do you use most?
+3. what gets in the way the most?
+4. why haven't productivity apps stuck for you?
+5. what should joule do for you?
+6. if joule nailed it, what would you pay?
+
+## invites
+
+after you join, you get a personal invite link. when someone joins the waitlist through it, you get 2 months free.
+
+## questions
+
+### what is joule AI?
+
+joule AI is coming soon. its tagline is "less managing, more doing".
+
+### is joule AI available yet?
+
+not yet. joule AI is coming soon, and the waitlist is open.
+
+### how do i join the waitlist?
+
+enter your email at the top of this page and press "join waitlist".
+
+### what happens after i join?
+
+you're on the list, and you can answer 6 optional multiple-choice questions that help shape joule AI.
+
+### what do i get for inviting someone?
+
+after you join, you get a personal invite link. when someone joins the waitlist through it, you get 2 months free.
+
+### how do i contact joule AI?
+
+email tryjoule.ai@gmail.com.
