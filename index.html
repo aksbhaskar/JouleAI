@@ -804,6 +804,7 @@
       if (!survey.classList.contains("open") || sending) return;
       if (e.target.closest("#invite")) return;
       if (e.target.matches("input") || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.target.closest("a[href]")) return;
       const q = current();
       if (e.key === "Enter") {
         e.preventDefault();
